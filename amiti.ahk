@@ -123,19 +123,20 @@ SinglePress(lastkey,sendkey,is_prior_empty:=false) {
 +sc03A::&
 
 ;ctrlキーショートカット
-^f::ModifierdKey("{Backspace}")	;backspace 
-^d::ModifierdKey("{Delete}")		;delete
+*^f::ModifierdKey("{Backspace}")	;backspace 
+*^d::ModifierdKey("{Delete}")		;delete
 ^h::ModifierdKey("{left}")		;上下左右キー
-^j::ModifierdKey("{down}")	
+^j::ModifierdKey("{down}")	 
 ^k::ModifierdKey("{up}")
 ^l::ModifierdKey("{right}")
 ^+h::ModifierdKey("+{left}")
-^+j::ModifierdKey("+{down}") 
+^+j::ModifierdKey("+{down}")
 ^+k::ModifierdKey("+{up}")  
-^+l::ModifierdKey("+{right}")
+^+l::ModifierdKey("+{right}")  
 ^u::ModifierdKey("{up 2}")
 ^n::ModifierdKey("{down 2}")
 ^q::ModifierdKey("{Home}")     ;Home
+^+q::ModifierdKey("+{Home}")
 ^e::ModifierdKey("{End}")		;End
 ^+e::ModifierdKey("+{End}")
 ^+g::ModifierdKey("^{End}")    ;最終行に移動
