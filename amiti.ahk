@@ -1,4 +1,4 @@
-﻿#Requires AutoHotkey v2.0
+#Requires AutoHotkey v2.0
 #UseHook true
 #SingleInstance Force
 
@@ -52,6 +52,7 @@ g::{
 }
 
 ;修飾キーのリマップ
+;修飾キーと同時に押されているときにSendするとその修飾キーと一緒に送られたことになってしまうので修飾キーを一時的に押されていないことにする
 ModifierdKey(sendkey){
     sendStr := sendKey
     if(GetKeyState("Shift")){
@@ -69,6 +70,7 @@ ModifierdKey(sendkey){
 timeout:= 300
 pressedAt:= 0
 
+;単押しの場合の挙動を持たせる
 SinglePress(lastkey,sendkey,is_prior_empty:=false) {
     pressedAt:=A_TickCount
     KeyWait lastkey
@@ -226,6 +228,7 @@ unExpectedTxt:="未知のバグです。報告をお願いします。"
     }		
 }
 #o::{
+    MsgBox(A_PriorHotkey)
     try{
         WinActivate win5
     }catch TargetError as Terr{
@@ -235,14 +238,27 @@ unExpectedTxt:="未知のバグです。報告をお願いします。"
     }
 }
 ;pでwin1~5以外のウィンドウを切り替える
+priorWindow:=""
 #p::{
-    if(A_PriorHotkey==ThisHotkey){
-        WinMoveBottom("A")
+    global
+    try{
+        if(A_PriorHotkey!=ThisHotkey){
+            GroupDeactivate "MainWindows","R"
+        }else{
+            GroupDeactivate "MainWindows"
+        }
+
+        tempWindow:=WinGetTitle("A")
+        if(A_PriorHotkey==ThisHotkey and tempWindow != priorWindow){
+            WinMoveBottom(priorWindow)
+        }
+        priorWindow:=tempWindow
+    }catch as err{
+        MsgBox("このコマンドはまだ動作が不安定です。いつかいい感じにします。`n`n" . err.Message)
     }
-    GroupDeactivate "MainWindows" 
 }
 ;音量操作
-#m::ModifierdKey("{Volume_Mute}")     
+#m::ModifierdKey("{Volume_Mute}")  
 #sc027::ModifierdKey("{Volume_Down}") 
 #sc028::ModifierdKey("{Volume_Up}")	
 ;スクロール
@@ -260,6 +276,7 @@ unExpectedTxt:="未知のバグです。報告をお願いします。"
 #x::ModifierdKey("{Home}+{End}^x{Delete}")
 #c::ModifierdKey("{Home}+{End}^c")
 #v::ModifierdKey("{End}+{Enter}^v")
+#+v::ModifierdKey("{Home}^v+{Enter}")
 #z::ModifierdKey("^z")
 #y::ModifierdKey("^y")
 
