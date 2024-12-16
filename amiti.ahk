@@ -12,7 +12,7 @@ Shift::sc073    ;shiftキーを\キーに
 ^::\            ;^キーと¥キーの入れ替え
 \::^
 #SuspendExempt
-    sc029::Suspend  ;半角全角をahk停止/再開に
+    RControl::Suspend  ;右Ctrをahk停止/再開に
 #SuspendExempt false 
 
 ;2ストローク
